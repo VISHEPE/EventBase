@@ -2,17 +2,29 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>EventEase - Dashboard</title>
+  <title>Dashboard - EventEase</title>
   <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-  <h1>Welcome to EventEase</h1>
-  <a href="/events/create">Create Event</a>
-  <h2>Upcoming Events</h2>
-  <ul>
-    <% events.forEach(event => { %>
-      <li><strong><%= event.title %></strong>: <%= event.description %> on <%= event.date %></li>
-    <% }); %>
-  </ul>
+  <nav class="navbar">
+    <!-- Navbar code here -->
+  </nav>
+
+  <div class="dashboard-container">
+    <h2>Welcome, <%= user.username %>!</h2>
+    <h3>Your Events</h3>
+    <ul>
+      <% userEvents.forEach(event => { %>
+        <li><%= event.title %> - <a href="/events/details/<%= event.id %>">View</a></li>
+      <% }); %>
+    </ul>
+
+    <h3>Your Bookings</h3>
+    <ul>
+      <% userBookings.forEach(booking => { %>
+        <li><%= booking.title %> - <a href="/events/details/<%= booking.event_id %>">View</a></li>
+      <% }); %>
+    </ul>
+  </div>
 </body>
 </html>

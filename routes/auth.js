@@ -2,6 +2,52 @@ const express = require('express');
 const db = require('../db');
 const router = express.Router();
 
+// Set up session
+router.use(
+    session({
+      secret: 'yourSecretKey',
+      resave: false,
+      saveUninitialized: false
+    })
+  );
+
+  // Registration route
+router.post('/register', async (req, res) => {
+    const { username, email, password } = req.body;
+    const hashedPassword = await bcrypt.hash(password, 10);
+    db.query('INSERT INTO users (username, email, password) VALUES (?, ?, ?)', [username, email, hashedPassword], (err) => {
+      if (err) throw err;
+      res.redirect('/login');
+    });
+  });
+  // Login route
+router.post('/login', (req, res) => {
+    const { email, password } = req.body;
+    db.query('SELECT * FROM users WHERE email = ?', [email], async (err, results) => {
+      if (err) throw err;
+      if (results.length > 0 && await bcrypt.compare(password, results[0].password)) {
+        req.session.user = results[0];
+        res.redirect('/');
+      } else {
+        res.send('Invalid email or password');
+      }
+    });
+  });
+  
+  // Logout route
+  router.get('/logout', (req, res) => {
+    req.session.destroy();
+    res.redirect('/');
+  });
+
+
+
+
+
+
+
+
+
 router.get('/', (req, res) => {
   const searchQuery = req.query.search || '';
   const currentPage = parseInt(req.query.page) || 1;

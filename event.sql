@@ -11,3 +11,12 @@ CREATE TABLE events (
   description TEXT,
   date DATE
 );
+
+CREATE TABLE bookings (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  event_id INT,
+  user_id INT,
+  FOREIGN KEY (event_id) REFERENCES events(id),
+  FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
