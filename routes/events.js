@@ -23,4 +23,23 @@ router.post('/create', (req, res) => {
   });
 });
 
+
+
+router.post('/create', (req, res) => {
+    if (!req.session.user) {
+      return res.redirect('/login');
+    }
+  
+    const { title, description, date, location, category } = req.body;
+    db.query(
+      'INSERT INTO events (title, description, date, location, category, user_id) VALUES (?, ?, ?, ?, ?, ?)',
+      [title, description, date, location, category, req.session.user.id],
+      (err) => {
+        if (err) throw err;
+        res.redirect('/');
+      }
+    );
+  });
+  
+
 module.exports = router;
