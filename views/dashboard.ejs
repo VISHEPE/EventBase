@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EventEase - Dashboard</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <h1>Welcome to EventEase</h1>
+  <a href="/events/create">Create Event</a>
+  <h2>Upcoming Events</h2>
+  <ul>
+    <% events.forEach(event => { %>
+      <li><strong><%= event.title %></strong>: <%= event.description %> on <%= event.date %></li>
+    <% }); %>
+  </ul>
+</body>
+</html>
